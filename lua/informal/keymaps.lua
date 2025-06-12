@@ -1,9 +1,8 @@
 local M = {}
-function M.setup_keymaps()
-  local config = require("informal.config")
+function M.setup_keymaps(keymaps)
   local ignore = require("informal.ignore")
   local actions = { add_comments = ignore.add_comments }
-  for name, keymap in pairs(config.opts.keymaps) do
+  for name, keymap in pairs(keymaps) do
     if keymap and keymap ~= false then
       local action = actions[name]
       if action then

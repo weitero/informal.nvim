@@ -11,5 +11,6 @@ local defaults = {
 M.opts = {}
 function M.setup(opts)
   M.opts = vim.tbl_deep_extend("force", {}, defaults, opts or {})
+  require("informal.keymaps").setup_keymaps(M.opts.keymaps)
 end
 return M
