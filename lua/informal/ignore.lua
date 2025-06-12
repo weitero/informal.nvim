@@ -31,5 +31,4 @@ function M.add_comments()
     end
   end
 end
-vim.keymap.set("v", "<leader>c", M.add_comments, { desc = "" })
 return M
