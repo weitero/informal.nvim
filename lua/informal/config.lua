@@ -5,6 +5,7 @@ local defaults = {
     lua = { "stylua" },
     python = { "ruff" },
   },
+  pragma_comments = {},
 }
 M.opts = {}
 function M.setup(opts)

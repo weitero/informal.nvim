@@ -1,5 +1,5 @@
 local config = require("informal.config")
-local pragma_comments = require("informal.pragma_comments").pragma_comments
+local pragma_comments = require("informal.pragma_comments")
 local utils = require("informal.utils")
 local M = {}
 function M.get_formatters()
