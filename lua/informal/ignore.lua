@@ -22,12 +22,15 @@ function M.add_comments()
   for _, formatter in ipairs(formatters) do
     local formatter_pragma_comments = pragma_comments[formatter]
     if start_line == end_line then
-      local comment_string = formatter_pragma_comments[1]
+      local indent = utils.set_proper_indentation(start_line)
+      local comment_string = indent .. formatter_pragma_comments[1]
       vim.api.nvim_buf_set_lines(0, start_line - 1, start_line - 1, true, { comment_string })
     else
+      local indent_start = utils.set_proper_indentation(start_line)
+      local indent_end = utils.set_proper_indentation(end_line)
       local comment_string = formatter_pragma_comments[2]
-      vim.api.nvim_buf_set_lines(0, start_line - 1, start_line - 1, true, { comment_string[1] })
-      vim.api.nvim_buf_set_lines(0, end_line + 1, end_line + 1, true, { comment_string[2] })
+      vim.api.nvim_buf_set_lines(0, start_line - 1, start_line - 1, true, { indent_start .. comment_string[1] })
+      vim.api.nvim_buf_set_lines(0, end_line + 1, end_line + 1, true, { indent_end .. comment_string[2] })
     end
   end
 end

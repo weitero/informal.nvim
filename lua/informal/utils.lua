@@ -13,4 +13,9 @@ function M.get_range()
   end
   return start_line, end_line
 end
+function M.set_proper_indentation(reference_lnum)
+  local indent_level = vim.fn.indent(reference_lnum)
+  local indent = string.rep(" ", indent_level)
+  return indent
+end
 return M
