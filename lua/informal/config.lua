@@ -3,7 +3,7 @@ local defaults = {
   force_block_ignore = false,
   formatters_by_ft = {
     lua = { "stylua" },
-    python = { "ruff" },
+    python = { "ruff_format" },
   },
   pragma_comments = {},
   keymaps = { add_comments = "<leader>c" },

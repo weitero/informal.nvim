@@ -2,7 +2,7 @@ local config = require("informal.config")
 local M = {}
 
 local default_pragma_comments = {
-  ruff = { "# fmt: skip", { "# fmt: off", "# fmt: on" } },
+  ruff_format = { "# fmt: skip", { "# fmt: off", "# fmt: on" } },
   stylua = { "-- stylua: ignore", { "-- stylua: ignore start", "-- stylua: ignore end" } },
 }
 
