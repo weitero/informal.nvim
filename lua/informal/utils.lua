@@ -4,6 +4,14 @@ function M.is_visual_mode()
   return current_mode == "v" or current_mode == "V" or current_mode == "\22"
 end
 function M.get_formatters()
+  local success, conform = pcall(require, "conform")
+  if success then
+    local formatters = {}
+    for _, item in ipairs(conform.list_formatters_to_run()) do
+      table.insert(formatters, item.name)
+    end
+    return formatters
+  end
   local formatters_by_ft = require("informal.config").opts.formatters_by_ft
   local ft = vim.bo.filetype
   local formatters = formatters_by_ft[ft]
