@@ -2,8 +2,8 @@ local config = require("informal.config")
 local M = {}
 
 local default_pragma_comments = {
-  ruff_format = { "# fmt: skip", { "# fmt: off", "# fmt: on" } },
-  stylua = { "-- stylua: ignore", { "-- stylua: ignore start", "-- stylua: ignore end" } },
+  ruff_format = { inline = "# fmt: skip", blockwise = { "# fmt: off", "# fmt: on" } },
+  stylua = { before = "-- stylua: ignore", blockwise = { "-- stylua: ignore start", "-- stylua: ignore end" } },
 }
 
 setmetatable(M, {
