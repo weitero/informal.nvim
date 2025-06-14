@@ -3,6 +3,15 @@ function M.is_visual_mode()
   local current_mode = vim.fn.mode()
   return current_mode == "v" or current_mode == "V" or current_mode == "\22"
 end
+function M.get_formatters()
+  local formatters_by_ft = require("informal.config").opts.formatters_by_ft
+  local ft = vim.bo.filetype
+  local formatters = formatters_by_ft[ft]
+  if not formatters then
+    return {}
+  end
+  return formatters
+end
 function M.get_range()
   local start_pos = vim.fn.getpos("v")
   local end_pos = vim.fn.getpos(".")

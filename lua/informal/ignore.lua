@@ -1,21 +1,12 @@
-local config = require("informal.config")
 local pragma_comments = require("informal.pragma_comments")
 local utils = require("informal.utils")
 local M = {}
-function M.get_formatters()
-  local ft = vim.bo.filetype
-  local formatters = config.opts.formatters_by_ft[ft]
-  if not formatters then
-    return {}
-  end
-  return formatters
-end
 function M.add_comments()
   if not utils.is_visual_mode() then
     return
   end
   local start_line, end_line = utils.get_range()
-  local formatters = M.get_formatters()
+  local formatters = utils.get_formatters()
   if not formatters then
     return
   end
