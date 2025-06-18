@@ -29,6 +29,8 @@ Using `lazy.nvim`:
 ## Usage
 
 Select code in V-mode (`v`, `V`, or `<Ctrl-v>`) and press `<leader>c` (default key binding).
+Or in Normal mode, press `<leader>c` (this is similar to selecting one line in
+V-mode).
 
 - example when multiple lines are selected:
 
@@ -80,6 +82,29 @@ a = 1
 
 a = 1 # fmt: skip
 ```
+
+- example in Normal mode:
+
+```lua
+-- when using stylua
+
+-- before
+-- (Normal mode, cursor at the first line (doesn't matter where))
+
+local a = 1|
+local b = 2
+
+-- after `<leader>c`
+-- (pragma comments added)
+
+-- stylua: ignore
+local a = 1|
+local b = 2
+```
+
+> [!NOTE]
+> Block-skipping is only available when multiple lines are selected.
+
 
 ## Configuration
 
@@ -143,5 +168,5 @@ The following languages/formatters are configured by default:
  
 ## TODOs
 
-- [ ] Support Normal mode
+- [x] Support Normal mode
 - [ ] Support easy removal of pragma comments

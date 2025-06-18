@@ -3,6 +3,10 @@ function M.is_visual_mode()
   local current_mode = vim.fn.mode()
   return current_mode == "v" or current_mode == "V" or current_mode == "\22"
 end
+function M.is_normal_mode()
+  local current_mode = vim.fn.mode()
+  return current_mode == "n"
+end
 function M.get_formatters()
   local success, conform = pcall(require, "conform")
   if success then

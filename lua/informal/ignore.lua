@@ -2,7 +2,7 @@ local pragma_comments = require("informal.pragma_comments")
 local utils = require("informal.utils")
 local M = {}
 function M.add_comments()
-  if not utils.is_visual_mode() then
+  if not utils.is_visual_mode() and not utils.is_normal_mode() then
     return
   end
   local start_line, end_line = utils.get_range()

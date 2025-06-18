@@ -6,7 +6,7 @@ function M.setup_keymaps(keymaps)
     if keymap and keymap ~= false then
       local action = actions[name]
       if action then
-        vim.keymap.set("v", keymap, action, { remap = false, silent = true })
+        vim.keymap.set({ "n", "v" }, keymap, action, { remap = false, silent = true })
       end
     end
   end
