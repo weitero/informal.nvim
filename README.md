@@ -10,16 +10,16 @@ Effortlessly skip formatting on selected code blocks in Neovim.
 
 ## ✨ Features
 
--   **Visual Selection**: Add ignore comments to lines selected in Visual mode (`v`, `V`, `<C-v>`).
--   **Normal Mode**: Quickly add an ignore comment to the current line in Normal mode.
--   **Formatter Integration**: Automatically detects formatter names when [`conform.nvim`](https://github.com/stevearc/conform.nvim) is installed.
--   **Customizable**: Easily override default settings to add support for new formatters or customize pragma comments.
--   **Built-in Support**: Comes with pre-configured settings for `stylua` (Lua) and `ruff_format` (Python).
+- **Visual Selection**: Add ignore comments to lines selected in Visual mode (`v`, `V`, `<C-v>`).
+- **Normal Mode**: Quickly add an ignore comment to the current line in Normal mode.
+- **Formatter Integration**: Automatically detects formatter names when [`conform.nvim`](https://github.com/stevearc/conform.nvim) is installed.
+- **Customizable**: Easily override default settings to add support for new formatters or customize pragma comments.
+- **Built-in Support**: Comes with pre-configured settings for `stylua` (Lua) and `ruff_format` (Python).
 
 ## 📋 Requirements
 
--   Neovim >= 0.7.0
--   (Optional) [`conform.nvim`](https://github.com/stevearc/conform.nvim): Used to detect the correct formatter for the current buffer. If not found, the plugin falls back to a predefined list.
+- Neovim >= 0.7.0
+- (Optional) [`conform.nvim`](https://github.com/stevearc/conform.nvim): Used to detect the correct formatter for the current buffer. If not found, the plugin falls back to a predefined list.
 
 ## 📦 Installation
 
@@ -39,10 +39,10 @@ With `lazy.nvim`:
 The primary way to use `informal.nvim` is by selecting code and using a keymap to add the ignore comments.
 
 1.  **Select code**:
-    -   In **Visual mode**, select one or more lines.
-    -   In **Normal mode**, place your cursor on the line you want to ignore.
+    - In **Visual mode**, select one or more lines.
+    - In **Normal mode**, place your cursor on the line you want to ignore.
 2.  **Add comments**:
-    -   Press `<leader>c` (default keymap) to add the appropriate pragma comments.
+    - Press `<leader>c` (default keymap) to add the appropriate pragma comments.
 
 ### Examples
 
@@ -137,9 +137,10 @@ opts = {
 You can define custom pragma comments for any formatter using the `pragma_comments` table. This is useful for formatters not supported by default or for overriding existing settings.
 
 There are three types of pragma comments:
--   `inline`: Appended to the end of a line.
--   `before`: Inserted on the line before the code.
--   `blockwise`: A pair of comments that surround a block of code (`{start, end}`).
+
+- `inline`: Appended to the end of a line.
+- `before`: Inserted on the line before the code.
+- `blockwise`: A pair of comments that surround a block of code (`{start, end}`).
 
 ```lua
 -- In your lazy.nvim setup
@@ -162,16 +163,16 @@ opts = {
 
 ### Built-in Pragma Comments
 
-| Formatter     | Language | Type        | Comment                               |
-| ------------- | -------- | ----------- | ------------------------------------- |
-| `stylua`      | Lua      | `before`    | `-- stylua: ignore`                   |
+| Formatter     | Language | Type        | Comment                                            |
+| ------------- | -------- | ----------- | -------------------------------------------------- |
+| `stylua`      | Lua      | `before`    | `-- stylua: ignore`                                |
 |               |          | `blockwise` | `-- stylua: ignore start`, `-- stylua: ignore end` |
-| `ruff_format` | Python   | `inline`    | `# fmt: skip`                         |
-|               |          | `blockwise` | `# fmt: off`, `# fmt: on`             |
+| `ruff_format` | Python   | `inline`    | `# fmt: skip`                                      |
+|               |          | `blockwise` | `# fmt: off`, `# fmt: on`                          |
 
 ## 📝 TODO
 
--   [ ] Support easy removal of pragma comments.
+- [ ] Support easy removal of pragma comments.
 
 ## 📄 License
 
