@@ -166,12 +166,12 @@ Pragma comments can also be templates. Any placeholder in `{name}` format will
 be replaced at runtime.
 
 - In automatic mode, placeholders use configured defaults only.
-- In explicit modes (`inline`, `before`, `blockwise`, `all`), missing
-  placeholders prompt for input.
-- If `template_options` are configured for a placeholder (e.g. `target`), the
-  prompt shows available values and also allows a custom value.
-- For Biome `target`, custom values must start with `lint`, `assist`, or
-  `syntax`.
+- In explicit modes (`inline`, `before`, `blockwise`, `all`), placeholders are
+  expanded as snippets when supported by your Neovim version.
+- If `template_options` are configured for a placeholder (e.g. `target`), they
+  are shown as snippet choices.
+- For blockwise mode, start and end comments share linked snippet fields, so
+  values chosen once are mirrored to both comments.
 
 ```lua
 -- In your lazy.nvim setup
