@@ -170,6 +170,8 @@ be replaced at runtime.
   placeholders prompt for input.
 - If `template_options` are configured for a placeholder (e.g. `target`), the
   prompt shows available values and also allows a custom value.
+- For Biome `target`, custom values must start with `lint`, `assist`, or
+  `syntax`.
 
 ```lua
 -- In your lazy.nvim setup

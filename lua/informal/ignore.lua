@@ -63,6 +63,40 @@ local function build_template_options(formatter_pragma_comments)
   return vim.tbl_deep_extend("force", {}, global_options, formatter_options)
 end
 
+local function is_valid_biome_target(value)
+  if type(value) ~= "string" or value == "" then
+    return false
+  end
+  return value:match("^lint") or value:match("^assist") or value:match("^syntax")
+end
+
+local function validate_template_value(formatter, key, value)
+  if formatter == "biome" and key == "target" then
+    return is_valid_biome_target(value)
+  end
+  return true
+end
+
+local function prompt_custom_value(formatter, key, default_value)
+  while true do
+    local prompt = string.format("informal.nvim %s %s: ", formatter, key)
+    local input_value = vim.fn.input(prompt, default_value or "")
+    if not input_value or input_value == "" then
+      input_value = default_value
+    end
+    if not input_value or input_value == "" then
+      return nil
+    end
+    if validate_template_value(formatter, key, input_value) then
+      return input_value
+    end
+    vim.notify(
+      "informal.nvim: invalid Biome target. It must start with 'lint', 'assist', or 'syntax'.",
+      vim.log.levels.WARN
+    )
+  end
+end
+
 local function prompt_value_with_options(formatter, key, default_value, options)
   local prompt_lines = { string.format("informal.nvim %s %s", formatter, key) }
   for idx, value in ipairs(options) do
@@ -75,19 +109,14 @@ local function prompt_value_with_options(formatter, key, default_value, options)
 
   local custom_index = #options + 1
   table.insert(prompt_lines, string.format("%d. %s", custom_index, "Custom value"))
+  table.insert(prompt_lines, "")
 
   local selected = vim.fn.inputlist(prompt_lines)
   if selected >= 1 and selected <= #options then
     return options[selected]
   end
 
-  local custom_prompt = string.format("informal.nvim %s %s: ", formatter, key)
-  local custom_value = vim.fn.input(custom_prompt, default_value or "")
-  if custom_value and custom_value ~= "" then
-    return custom_value
-  end
-
-  return default_value
+  return prompt_custom_value(formatter, key, default_value)
 end
 
 local function resolve_template_value(formatter, key, mode, defaults, options, invocation_values, resolved_values)
@@ -104,11 +133,7 @@ local function resolve_template_value(formatter, key, mode, defaults, options, i
     if type(available_values) == "table" and #available_values > 0 then
       input_value = prompt_value_with_options(formatter, key, default_value, available_values)
     else
-      local prompt = string.format("informal.nvim %s %s: ", formatter, key)
-      input_value = vim.fn.input(prompt, default_value or "")
-      if not input_value or input_value == "" then
-        input_value = default_value
-      end
+      input_value = prompt_custom_value(formatter, key, default_value)
     end
     if not input_value or input_value == "" then
       return nil
