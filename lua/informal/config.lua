@@ -5,6 +5,7 @@ local defaults = {
     lua = { "stylua" },
     python = { "ruff_format" },
   },
+  template_defaults = {},
   pragma_comments = {},
   keymaps = {
     add_comments = "<leader>ig",

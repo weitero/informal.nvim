@@ -113,6 +113,10 @@ Here are the default settings for the plugin:
     python = { "ruff_format" },
   },
 
+  -- Optional global defaults used by pragma templates with placeholders.
+  -- Example placeholders: {target}, {reason}
+  template_defaults = {},
+
   -- Override or add pragma comments for different formatters.
   pragma_comments = {},
 
@@ -154,13 +158,31 @@ There are three types of pragma comments:
 - `blockwise`: A pair of comments that surround a block of code (`{start, end}`).
 - `all`: Inserted at the top of the file. This mode is explicit-only.
 
+Pragma comments can also be templates. Any placeholder in `{name}` format will
+be replaced at runtime.
+
+- In automatic mode, placeholders use configured defaults only.
+- In explicit modes (`inline`, `before`, `blockwise`, `all`), missing
+  placeholders prompt for input.
+
 ```lua
 -- In your lazy.nvim setup
 opts = {
+  template_defaults = {
+    reason = "temporary suppression",
+  },
   pragma_comments = {
     -- Example for Biome (file-wide disable pragma)
     biome = {
-      all = "biome-ignore-all",
+      all = "biome-ignore-all {target}: {reason}",
+      before = "biome-ignore {target}: {reason}",
+      blockwise = {
+        "biome-ignore-start {target}: {reason}",
+        "biome-ignore-end {target}: {reason}",
+      },
+      template_defaults = {
+        target = "lint",
+      },
     },
     -- Example for Prettier (JavaScript/TypeScript)
     prettier = {
@@ -185,7 +207,9 @@ opts = {
 |               |          | `blockwise` | `-- stylua: ignore start`, `-- stylua: ignore end` |
 | `ruff_format` | Python   | `inline`    | `# fmt: skip`                                      |
 |               |          | `blockwise` | `# fmt: off`, `# fmt: on`                          |
-| `biome`       | JS/TS    | `all`       | `// biome-ignore-all`                              |
+| `biome`       | JS/TS    | `before`    | `// biome-ignore lint: reason`                     |
+|               |          | `blockwise` | `// biome-ignore-start/end lint: reason`           |
+|               |          | `all`       | `// biome-ignore-all lint: reason`                 |
 
 ## 📝 TODO
 
