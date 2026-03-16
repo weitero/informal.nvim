@@ -39,4 +39,18 @@ function M.set_proper_indentation(reference_lnum)
   local indent = string.rep(" ", indent_level)
   return indent
 end
+
+function M.resolve_pragma_comment(comment)
+  if type(comment) ~= "string" then
+    return comment
+  end
+
+  local commentstring = vim.bo.commentstring
+  if not commentstring or commentstring == "" or not commentstring:find("%%s") then
+    return comment
+  end
+
+  return (commentstring:gsub("%%s", comment))
+end
+
 return M
