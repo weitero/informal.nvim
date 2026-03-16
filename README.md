@@ -38,11 +38,16 @@ With `lazy.nvim`:
 
 The primary way to use `informal.nvim` is by selecting code and using a keymap to add the ignore comments.
 
-1.  **Select code**:
-    - In **Visual mode**, select one or more lines.
-    - In **Normal mode**, place your cursor on the line you want to ignore.
-2.  **Add comments**:
-    - Press `<leader>c` (default keymap) to add the appropriate pragma comments.
+1. Select code in Visual mode, or place your cursor on a line in Normal mode.
+2. Press `<leader>ig` (default) to use automatic mode selection.
+3. Press `<leader>ii` to force `inline` comments.
+4. Press `<leader>ib` to force `before` comments.
+5. Press `<leader>iw` to force `blockwise` comments.
+
+By default, mode selection is automatic:
+
+- Single line: prefers `before`, falls back to `inline`.
+- Multi-line selection: uses `blockwise`.
 
 ### Examples
 
@@ -56,7 +61,7 @@ When used on a single line, `informal.nvim` adds an inline or preceding comment.
 -- Before
 local a = 1
 
--- After pressing <leader>c
+-- After pressing <leader>ig
 -- stylua: ignore
 local a = 1
 ```
@@ -67,7 +72,7 @@ local a = 1
 # Before
 a = 1
 
-# After pressing <leader>c
+# After pressing <leader>ig
 a = 1  # fmt: skip
 ```
 
@@ -82,7 +87,7 @@ When used on a block of code, `informal.nvim` surrounds it with block-style comm
 local a = 1
 local b = 2
 
--- After pressing <leader>c
+-- After pressing <leader>ig
 -- stylua: ignore start
 local a = 1
 local b = 2
@@ -111,7 +116,10 @@ Here are the default settings for the plugin:
 
   -- Keymap for adding comments. Set to `false` to disable.
   keymaps = {
-    add_comments = "<leader>c",
+    add_comments = "<leader>ig",
+    add_comments_inline = "<leader>ii",
+    add_comments_before = "<leader>ib",
+    add_comments_blockwise = "<leader>iw",
   },
 }
 ```

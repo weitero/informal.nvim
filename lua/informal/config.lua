@@ -6,7 +6,12 @@ local defaults = {
     python = { "ruff_format" },
   },
   pragma_comments = {},
-  keymaps = { add_comments = "<leader>ig" },
+  keymaps = {
+    add_comments = "<leader>ig",
+    add_comments_inline = "<leader>ii",
+    add_comments_before = "<leader>ib",
+    add_comments_blockwise = "<leader>iw",
+  },
 }
 M.opts = {}
 function M.setup(opts)
