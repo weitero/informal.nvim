@@ -33,6 +33,15 @@ local function add_blockwise_comments(start_line, end_line, blockwise)
   })
 end
 
+local function add_top_of_file_comment(comment)
+  local comment_string = utils.resolve_pragma_comment(comment)
+  local first_line = vim.api.nvim_buf_get_lines(0, 0, 1, false)[1]
+  if first_line == comment_string then
+    return
+  end
+  vim.api.nvim_buf_set_lines(0, 0, 0, true, { comment_string })
+end
+
 function M.add_comments(mode)
   if not utils.is_visual_mode() and not utils.is_normal_mode() then
     return
@@ -70,6 +79,8 @@ function M.add_comments(mode)
         end
       elseif selected_mode == "blockwise" and formatter_pragma_comments.blockwise then
         add_blockwise_comments(start_line, end_line, formatter_pragma_comments.blockwise)
+      elseif selected_mode == "all" and formatter_pragma_comments.all then
+        add_top_of_file_comment(formatter_pragma_comments.all)
       end
     end
   end
@@ -85,6 +96,10 @@ end
 
 function M.add_comments_blockwise()
   M.add_comments("blockwise")
+end
+
+function M.add_comments_all()
+  M.add_comments("all")
 end
 
 return M

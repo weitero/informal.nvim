@@ -6,6 +6,7 @@ function M.setup_keymaps(keymaps)
     add_comments_inline = ignore.add_comments_inline,
     add_comments_before = ignore.add_comments_before,
     add_comments_blockwise = ignore.add_comments_blockwise,
+    add_comments_all = ignore.add_comments_all,
   }
   for name, keymap in pairs(keymaps) do
     if keymap and keymap ~= false then

@@ -43,11 +43,13 @@ The primary way to use `informal.nvim` is by selecting code and using a keymap t
 3. Press `<leader>ii` to force `inline` comments.
 4. Press `<leader>ib` to force `before` comments.
 5. Press `<leader>iw` to force `blockwise` comments.
+6. Press `<leader>ia` to force `all` comments (inserted at top of file).
 
 By default, mode selection is automatic:
 
 - Single line: prefers `before`, falls back to `inline`.
 - Multi-line selection: uses `blockwise`.
+- `all` is never selected automatically; it is explicit-only via keybinding/API.
 
 ### Examples
 
@@ -120,6 +122,7 @@ Here are the default settings for the plugin:
     add_comments_inline = "<leader>ii",
     add_comments_before = "<leader>ib",
     add_comments_blockwise = "<leader>iw",
+    add_comments_all = "<leader>ia",
   },
 }
 ```
@@ -149,11 +152,16 @@ There are three types of pragma comments:
 - `inline`: Appended to the end of a line.
 - `before`: Inserted on the line before the code.
 - `blockwise`: A pair of comments that surround a block of code (`{start, end}`).
+- `all`: Inserted at the top of the file. This mode is explicit-only.
 
 ```lua
 -- In your lazy.nvim setup
 opts = {
   pragma_comments = {
+    -- Example for Biome (file-wide disable pragma)
+    biome = {
+      all = "biome-ignore-all",
+    },
     -- Example for Prettier (JavaScript/TypeScript)
     prettier = {
       inline = "prettier-ignore",
@@ -177,6 +185,7 @@ opts = {
 |               |          | `blockwise` | `-- stylua: ignore start`, `-- stylua: ignore end` |
 | `ruff_format` | Python   | `inline`    | `# fmt: skip`                                      |
 |               |          | `blockwise` | `# fmt: off`, `# fmt: on`                          |
+| `biome`       | JS/TS    | `all`       | `// biome-ignore-all`                              |
 
 ## 📝 TODO
 

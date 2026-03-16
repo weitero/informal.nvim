@@ -6,4 +6,5 @@ M.add_comments = ignore.add_comments
 M.add_comments_inline = ignore.add_comments_inline
 M.add_comments_before = ignore.add_comments_before
 M.add_comments_blockwise = ignore.add_comments_blockwise
+M.add_comments_all = ignore.add_comments_all
 return M

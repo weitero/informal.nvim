@@ -11,6 +11,7 @@ local defaults = {
     add_comments_inline = "<leader>ii",
     add_comments_before = "<leader>ib",
     add_comments_blockwise = "<leader>iw",
+    add_comments_all = "<leader>ia",
   },
 }
 M.opts = {}

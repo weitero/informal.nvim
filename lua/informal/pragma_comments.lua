@@ -4,6 +4,7 @@ local M = {}
 local default_pragma_comments = {
   ruff_format = { inline = "fmt: skip", blockwise = { "fmt: off", "fmt: on" } },
   stylua = { before = "stylua: ignore", blockwise = { "stylua: ignore start", "stylua: ignore end" } },
+  biome = { all = "biome-ignore-all", before = "biome-ignore", blockwise = { "biome-ignore-start", "biome-ignore-end" } },
 }
 
 setmetatable(M, {
