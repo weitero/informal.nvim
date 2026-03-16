@@ -117,6 +117,10 @@ Here are the default settings for the plugin:
   -- Example placeholders: {target}, {reason}
   template_defaults = {},
 
+  -- Optional global selectable values for template placeholders.
+  -- When present, explicit modes show these values in a picker.
+  template_options = {},
+
   -- Override or add pragma comments for different formatters.
   pragma_comments = {},
 
@@ -164,12 +168,17 @@ be replaced at runtime.
 - In automatic mode, placeholders use configured defaults only.
 - In explicit modes (`inline`, `before`, `blockwise`, `all`), missing
   placeholders prompt for input.
+- If `template_options` are configured for a placeholder (e.g. `target`), the
+  prompt shows available values and also allows a custom value.
 
 ```lua
 -- In your lazy.nvim setup
 opts = {
   template_defaults = {
     reason = "temporary suppression",
+  },
+  template_options = {
+    target = { "lint", "assist", "syntax" },
   },
   pragma_comments = {
     -- Example for Biome (file-wide disable pragma)
@@ -182,6 +191,13 @@ opts = {
       },
       template_defaults = {
         target = "lint",
+      },
+      template_options = {
+        target = {
+          "lint",
+          "lint/suspicious",
+          "lint/suspicious/noDebugger",
+        },
       },
     },
     -- Example for Prettier (JavaScript/TypeScript)

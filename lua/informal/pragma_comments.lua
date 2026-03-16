@@ -12,6 +12,13 @@ local default_pragma_comments = {
       target = "lint",
       reason = "suppressed by informal.nvim",
     },
+    template_options = {
+      target = {
+        "lint",
+        "assist",
+        "syntax",
+      },
+    },
   },
 }
 

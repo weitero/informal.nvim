@@ -57,7 +57,40 @@ local function build_template_defaults(formatter_pragma_comments)
   return vim.tbl_deep_extend("force", {}, global_defaults, formatter_defaults)
 end
 
-local function resolve_template_value(formatter, key, mode, defaults, invocation_values, resolved_values)
+local function build_template_options(formatter_pragma_comments)
+  local global_options = require("informal.config").opts.template_options or {}
+  local formatter_options = formatter_pragma_comments.template_options or {}
+  return vim.tbl_deep_extend("force", {}, global_options, formatter_options)
+end
+
+local function prompt_value_with_options(formatter, key, default_value, options)
+  local prompt_lines = { string.format("informal.nvim %s %s", formatter, key) }
+  for idx, value in ipairs(options) do
+    local suffix = ""
+    if default_value and value == default_value then
+      suffix = " (default)"
+    end
+    table.insert(prompt_lines, string.format("%d. %s%s", idx, value, suffix))
+  end
+
+  local custom_index = #options + 1
+  table.insert(prompt_lines, string.format("%d. %s", custom_index, "Custom value"))
+
+  local selected = vim.fn.inputlist(prompt_lines)
+  if selected >= 1 and selected <= #options then
+    return options[selected]
+  end
+
+  local custom_prompt = string.format("informal.nvim %s %s: ", formatter, key)
+  local custom_value = vim.fn.input(custom_prompt, default_value or "")
+  if custom_value and custom_value ~= "" then
+    return custom_value
+  end
+
+  return default_value
+end
+
+local function resolve_template_value(formatter, key, mode, defaults, options, invocation_values, resolved_values)
   if resolved_values[key] and resolved_values[key] ~= "" then
     return resolved_values[key]
   end
@@ -66,10 +99,16 @@ local function resolve_template_value(formatter, key, mode, defaults, invocation
   local default_value = invocation_values[key] or formatter_cache[key] or defaults[key]
 
   if mode then
-    local prompt = string.format("informal.nvim %s %s: ", formatter, key)
-    local input_value = vim.fn.input(prompt, default_value or "")
-    if not input_value or input_value == "" then
-      input_value = default_value
+    local input_value
+    local available_values = options[key]
+    if type(available_values) == "table" and #available_values > 0 then
+      input_value = prompt_value_with_options(formatter, key, default_value, available_values)
+    else
+      local prompt = string.format("informal.nvim %s %s: ", formatter, key)
+      input_value = vim.fn.input(prompt, default_value or "")
+      if not input_value or input_value == "" then
+        input_value = default_value
+      end
     end
     if not input_value or input_value == "" then
       return nil
@@ -96,9 +135,10 @@ local function render_template(formatter, template, mode, formatter_pragma_comme
   local keys = collect_template_keys(template)
   local rendered = template
   local defaults = build_template_defaults(formatter_pragma_comments)
+  local options = build_template_options(formatter_pragma_comments)
 
   for key in pairs(keys) do
-    local value = resolve_template_value(formatter, key, mode, defaults, invocation_values, resolved_values)
+    local value = resolve_template_value(formatter, key, mode, defaults, options, invocation_values, resolved_values)
     if not value then
       if mode then
         vim.notify(

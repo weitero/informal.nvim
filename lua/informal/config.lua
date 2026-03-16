@@ -6,6 +6,7 @@ local defaults = {
     python = { "ruff_format" },
   },
   template_defaults = {},
+  template_options = {},
   pragma_comments = {},
   keymaps = {
     add_comments = "<leader>ig",
