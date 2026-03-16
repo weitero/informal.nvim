@@ -86,29 +86,6 @@ local function escape_snippet_text(value)
   return escaped
 end
 
-local function escape_snippet_choice_item(value)
-  local escaped = escape_snippet_text(value)
-  escaped = escaped:gsub(",", "\\,")
-  escaped = escaped:gsub("|", "\\|")
-  return escaped
-end
-
-local function build_choice_items(default_value, available_values)
-  local unique = {}
-  local seen = {}
-  if default_value and default_value ~= "" then
-    table.insert(unique, default_value)
-    seen[default_value] = true
-  end
-  for _, item in ipairs(available_values) do
-    if not seen[item] then
-      table.insert(unique, item)
-      seen[item] = true
-    end
-  end
-  return unique
-end
-
 local function render_template_with_defaults(template, defaults, invocation_values)
   if type(template) ~= "string" then
     return template
@@ -127,15 +104,16 @@ local function render_template_with_defaults(template, defaults, invocation_valu
 end
 
 local function build_placeholder_for_key(idx, key, defaults, options, invocation_values)
-  local default_value = invocation_values[key] or defaults[key] or key
+  local default_value = invocation_values[key] or defaults[key]
+  if (not default_value or default_value == "") and type(options[key]) == "table" and #options[key] > 0 then
+    default_value = options[key][1]
+  end
+  default_value = default_value or key
   local available_values = options[key]
+
+  -- Use plain placeholders instead of choice nodes so completion can be provided by blink-cmp.
   if type(available_values) == "table" and #available_values > 0 then
-    local choice_items = build_choice_items(default_value, available_values)
-    local escaped_items = {}
-    for _, item in ipairs(choice_items) do
-      table.insert(escaped_items, escape_snippet_choice_item(item))
-    end
-    return string.format("${%d|%s|}", idx, table.concat(escaped_items, ","))
+    return string.format("${%d:%s}", idx, escape_snippet_text(default_value))
   end
   return string.format("${%d:%s}", idx, escape_snippet_text(default_value))
 end
@@ -172,19 +150,12 @@ local function build_template_snippet(template, defaults, options, invocation_va
   local snippet = template
   local ordered_keys = collect_template_keys_in_order(template)
   for idx, key in ipairs(ordered_keys) do
-    local default_value = invocation_values[key] or defaults[key] or key
-    local placeholder
-    local available_values = options[key]
-    if type(available_values) == "table" and #available_values > 0 then
-      local choice_items = build_choice_items(default_value, available_values)
-      local escaped_items = {}
-      for _, item in ipairs(choice_items) do
-        table.insert(escaped_items, escape_snippet_choice_item(item))
-      end
-      placeholder = string.format("${%d|%s|}", idx, table.concat(escaped_items, ","))
-    else
-      placeholder = string.format("${%d:%s}", idx, escape_snippet_text(default_value))
+    local default_value = invocation_values[key] or defaults[key]
+    if (not default_value or default_value == "") and type(options[key]) == "table" and #options[key] > 0 then
+      default_value = options[key][1]
     end
+    default_value = default_value or key
+    local placeholder = string.format("${%d:%s}", idx, escape_snippet_text(default_value))
     snippet = snippet:gsub("{" .. key .. "}", placeholder)
   end
 

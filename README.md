@@ -168,8 +168,10 @@ be replaced at runtime.
 - In automatic mode, placeholders use configured defaults only.
 - In explicit modes (`inline`, `before`, `blockwise`, `all`), placeholders are
   expanded as snippets when supported by your Neovim version.
-- If `template_options` are configured for a placeholder (e.g. `target`), they
-  are shown as snippet choices.
+- If `template_options` are configured for a placeholder (e.g. `target`), the
+  first option is used as placeholder default text.
+- Placeholders are plain snippet fields (not choice nodes), so you can type and
+  let `blink.cmp` handle completion suggestions.
 - For blockwise mode, start and end comments share linked snippet fields, so
   values chosen once are mirrored to both comments.
 
