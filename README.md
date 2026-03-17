@@ -1,5 +1,7 @@
 # informal.nvim
 
+[![Test](https://github.com/weitero/informal.nvim/actions/workflows/test.yml/badge.svg)](https://github.com/weitero/informal.nvim/actions/workflows/test.yml)
+
 Effortlessly skip formatting on selected code blocks in Neovim.
 
 ![informal.nvim demo](https://raw.githubusercontent.com/weitero/informal.nvim/main/assets/demo.gif)
@@ -234,6 +236,16 @@ opts = {
 ## 📝 TODO
 
 - [ ] Support easy removal of pragma comments.
+
+## ✅ Testing
+
+Run the automated test suite:
+
+```sh
+make test
+```
+
+The tests run with a mocked `vim` runtime and do not require launching Neovim.
 
 ## 📄 License
 
