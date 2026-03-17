@@ -176,7 +176,12 @@ end
 
 local function setup_runtime(vim_mock)
   _G.vim = vim_mock
-  local repo = "/Users/akio/repos/informal.nvim"
+  local source = debug.getinfo(1, "S").source
+  if source:sub(1, 1) == "@" then
+    source = source:sub(2)
+  end
+  local tests_dir = source:match("^(.*)/[^/]+$") or "."
+  local repo = tests_dir:match("^(.*)/tests$") or "."
   package.path = repo .. "/lua/?.lua;" .. repo .. "/lua/?/init.lua;" .. package.path
 end
 
@@ -214,7 +219,7 @@ add_test("auto single-line prefers before comment", function()
 end)
 
 add_test("auto single-line falls back to inline", function()
-local vim_mock, state =
+  local vim_mock, state =
     make_vim_mock({ lines = { "local a = 1" }, mode = "n", filetype = "lua", commentstring = "-- %s" })
   setup_runtime(vim_mock)
   reset_modules()
