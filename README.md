@@ -4,13 +4,9 @@
 
 Effortlessly skip formatting on selected code blocks in Neovim.
 
-![informal.nvim demo](https://raw.githubusercontent.com/weitero/informal.nvim/main/assets/demo.gif)
-
-> **Note**: This is a placeholder GIF. Please replace it with a real demonstration of the plugin.
-
 `informal.nvim` is a Lua-based Neovim plugin that simplifies adding pragma comments to your code, allowing you to prevent formatters from altering specific lines or blocks.
 
-## ✨ Features
+## Features
 
 - **Visual Selection**: Add ignore comments to lines selected in Visual mode (`v`, `V`, `<C-v>`).
 - **Normal Mode**: Quickly add an ignore comment to the current line in Normal mode.
@@ -18,12 +14,12 @@ Effortlessly skip formatting on selected code blocks in Neovim.
 - **Customizable**: Easily override default settings to add support for new formatters or customize pragma comments.
 - **Built-in Support**: Comes with pre-configured settings for `stylua` (Lua) and `ruff_format` (Python).
 
-## 📋 Requirements
+## Requirements
 
 - Neovim >= 0.7.0
 - (Optional) [`conform.nvim`](https://github.com/stevearc/conform.nvim): Used to detect the correct formatter for the current buffer. If not found, the plugin falls back to a predefined list.
 
-## 📦 Installation
+## Installation
 
 Install `informal.nvim` using your favorite plugin manager.
 
@@ -36,7 +32,7 @@ With `lazy.nvim`:
 }
 ```
 
-## 🚀 Usage
+## Usage
 
 The primary way to use `informal.nvim` is by selecting code and using a keymap to add the ignore comments.
 
@@ -98,7 +94,7 @@ local b = 2
 -- stylua: ignore end
 ```
 
-## ⚙️ Configuration
+## Configuration
 
 You can customize `informal.nvim` by passing an `opts` table to the `setup()` function.
 
@@ -233,11 +229,11 @@ opts = {
 |               |          | `blockwise` | `// biome-ignore-start/end lint: reason`           |
 |               |          | `all`       | `// biome-ignore-all lint: reason`                 |
 
-## 📝 TODO
+## TODO
 
 - [ ] Support easy removal of pragma comments.
 
-## ✅ Testing
+## Testing
 
 Run the automated test suite:
 
@@ -247,6 +243,6 @@ make test
 
 The tests run with a mocked `vim` runtime and do not require launching Neovim.
 
-## 📄 License
+## License
 
 This plugin is licensed under the MIT License. See [LICENSE](./LICENSE) for more details.
